@@ -2155,9 +2155,11 @@ int security_load_policy(struct selinux_state *state, void *data, size_t len)
 	}
 
 	if (!state->initialized) {
+		ebitmap_cache_init();
 		rc = policydb_read(policydb, fp);
 		if (rc) {
 			kfree(newsidtab);
+			ebitmap_cache_destroy();
 			goto out;
 		}
 
@@ -2167,6 +2169,7 @@ int security_load_policy(struct selinux_state *state, void *data, size_t len)
 		if (rc) {
 			kfree(newsidtab);
 			policydb_destroy(policydb);
+			ebitmap_cache_destroy();
 			goto out;
 		}
 
@@ -2174,6 +2177,7 @@ int security_load_policy(struct selinux_state *state, void *data, size_t len)
 		if (rc) {
 			kfree(newsidtab);
 			policydb_destroy(policydb);
+			ebitmap_cache_destroy();
 			goto out;
 		}
 
