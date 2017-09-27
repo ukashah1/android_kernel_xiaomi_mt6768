@@ -848,7 +848,7 @@ struct buffer_head *alloc_page_buffers(struct page *page, unsigned long size,
 	gfp_t gfp = GFP_NOFS;
 	long offset;
 
-if (retry)
+	if (retry)
 		gfp |= __GFP_NOFAIL;
 
 	head = NULL;
@@ -987,7 +987,9 @@ grow_dev_page(struct block_device *bdev, sector_t block,
 	/*
 	 * Allocate some buffers for this page
 	 */
-	bh = alloc_page_buffers(page, size, true);
+	bh = alloc_page_buffers(page, size, false);
+	if (!bh)
+		goto failed;
 
 	/*
 	 * Link the page to the buffers and initialise them.  Take the
