@@ -614,7 +614,7 @@ rename:
 	blocking_notifier_call_chain(&group->notifier,
 				     IOMMU_GROUP_NOTIFY_ADD_DEVICE, dev);
 
-	trace_add_device_to_group(group->id, dev);
+//	trace_add_device_to_group(group->id, dev);
 
 	pr_debug("Adding device %s to group %d\n", dev_name(dev), group->id);
 
@@ -672,7 +672,7 @@ void iommu_group_remove_device(struct device *dev)
 	sysfs_remove_link(group->devices_kobj, device->name);
 	sysfs_remove_link(&dev->kobj, "iommu_group");
 
-	trace_remove_device_from_group(group->id, dev);
+//	trace_remove_device_from_group(group->id, dev);
 
 	kfree(device->name);
 	kfree(device);
@@ -1335,7 +1335,7 @@ static int __iommu_attach_device(struct iommu_domain *domain,
 
 	ret = domain->ops->attach_dev(domain, dev);
 	if (!ret)
-		trace_attach_device_to_domain(dev);
+//		trace_attach_device_to_domain(dev);
 	return ret;
 }
 
@@ -1375,7 +1375,7 @@ static void __iommu_detach_device(struct iommu_domain *domain,
 		return;
 
 	domain->ops->detach_dev(domain, dev);
-	trace_detach_device_from_domain(dev);
+//	trace_detach_device_from_domain(dev);
 }
 
 void iommu_detach_device(struct iommu_domain *domain, struct device *dev)
@@ -1591,12 +1591,12 @@ int iommu_map(struct iommu_domain *domain, unsigned long iova,
 	/* unroll mapping in case something went wrong */
 	if (ret)
 		iommu_unmap(domain, orig_iova, orig_size - size);
-	else
-		trace_map(orig_iova, orig_paddr, orig_size);
+//	else
+//		trace_map(orig_iova, orig_paddr, orig_size);
 
 #ifdef CONFIG_MTK_IOMMU_V2
 	if (ret == 0)
-		mtk_iommu_trace_map(orig_iova, orig_paddr, orig_size);
+//		mtk_iommu_trace_map(orig_iova, orig_paddr, orig_size);
 #endif
 	return ret;
 }
@@ -1608,7 +1608,7 @@ static size_t __iommu_unmap(struct iommu_domain *domain,
 {
 	const struct iommu_ops *ops = domain->ops;
 	size_t unmapped_page, unmapped = 0;
-	unsigned long orig_iova = iova;
+//	unsigned long orig_iova = iova;
 	unsigned int min_pagesz;
 
 	if (unlikely(ops->unmap == NULL ||
@@ -1667,9 +1667,9 @@ static size_t __iommu_unmap(struct iommu_domain *domain,
 		ops->iotlb_sync(domain);
 #endif
 
-	trace_unmap(orig_iova, size, unmapped);
+//	trace_unmap(orig_iova, size, unmapped);
 #ifdef CONFIG_MTK_IOMMU_V2
-	mtk_iommu_trace_unmap(orig_iova, size, unmapped);
+//	mtk_iommu_trace_unmap(orig_iova, size, unmapped);
 #endif
 	return unmapped;
 }
