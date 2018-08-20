@@ -604,7 +604,7 @@ void blk_mq_start_request(struct request *rq)
 
 	blk_mq_sched_started_request(rq);
 
-	trace_block_rq_issue(q, rq);
+//	trace_block_rq_issue(q, rq);
 
 	if (test_bit(QUEUE_FLAG_STATS, &q->queue_flags)) {
 		blk_stat_set_issue(&rq->issue_stat, blk_rq_sectors(rq));
@@ -655,7 +655,7 @@ static void __blk_mq_requeue_request(struct request *rq)
 {
 	struct request_queue *q = rq->q;
 
-	trace_block_rq_requeue(q, rq);
+//	trace_block_rq_requeue(q, rq);
 	wbt_requeue(q->rq_wb, &rq->issue_stat);
 
 	if (test_and_clear_bit(REQ_ATOM_STARTED, &rq->atomic_flags)) {
@@ -1423,7 +1423,7 @@ static inline void __blk_mq_insert_req_list(struct blk_mq_hw_ctx *hctx,
 
 	lockdep_assert_held(&ctx->lock);
 
-	trace_block_rq_insert(hctx->queue, rq);
+//	trace_block_rq_insert(hctx->queue, rq);
 
 	if (at_head)
 		list_add(&rq->queuelist, &ctx->rq_list);
@@ -1705,14 +1705,14 @@ static blk_qc_t blk_mq_make_request(struct request_queue *q, struct bio *bio)
 			request_count = blk_plug_queued_count(q);
 
 		if (!request_count)
-			trace_block_plug(q);
+//			trace_block_plug(q);
 		else
 			last = list_entry_rq(plug->mq_list.prev);
 
 		if (request_count >= BLK_MAX_REQUEST_COUNT || (last &&
 		    blk_rq_bytes(last) >= BLK_PLUG_FLUSH_SIZE)) {
 			blk_flush_plug_list(plug, false);
-			trace_block_plug(q);
+//			trace_block_plug(q);
 		}
 
 		list_add_tail(&rq->queuelist, &plug->mq_list);

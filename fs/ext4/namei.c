@@ -3294,7 +3294,7 @@ static int ext4_unlink(struct inode *dir, struct dentry *dentry)
 	if (unlikely(ext4_forced_shutdown(EXT4_SB(dir->i_sb))))
 		return -EIO;
 
-	trace_ext4_unlink_enter(dir, dentry);
+//	trace_ext4_unlink_enter(dir, dentry);
 	/* Initialize quotas before so that eventual writes go
 	 * in separate transaction */
 	retval = dquot_initialize(dir);
@@ -3359,7 +3359,7 @@ end_unlink:
 	brelse(bh);
 	if (handle)
 		ext4_journal_stop(handle);
-	trace_ext4_unlink_exit(dentry, retval);
+//	trace_ext4_unlink_exit(dentry, retval);
 	return retval;
 }
 

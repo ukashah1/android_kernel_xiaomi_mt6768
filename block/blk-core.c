@@ -1305,7 +1305,7 @@ out:
 	if (ioc_batching(q, ioc))
 		ioc->nr_batch_requests--;
 
-	trace_block_getrq(q, bio, op);
+//	trace_block_getrq(q, bio, op);
 	return rq;
 
 fail_elvpriv:
@@ -1395,7 +1395,7 @@ retry:
 	prepare_to_wait_exclusive(&rl->wait[is_sync], &wait,
 				  TASK_UNINTERRUPTIBLE);
 
-	trace_block_sleeprq(q, bio, op);
+//	trace_block_sleeprq(q, bio, op);
 
 	spin_unlock_irq(q->queue_lock);
 	io_schedule();
@@ -1475,7 +1475,7 @@ void blk_requeue_request(struct request_queue *q, struct request *rq)
 
 	blk_delete_timer(rq);
 	blk_clear_rq_complete(rq);
-	trace_block_rq_requeue(q, rq);
+//	trace_block_rq_requeue(q, rq);
 	wbt_requeue(q->rq_wb, &rq->issue_stat);
 
 	if (rq->rq_flags & RQF_QUEUED)
@@ -1626,7 +1626,7 @@ bool bio_attempt_back_merge(struct request_queue *q, struct request *req,
 	if (!ll_back_merge_fn(q, req, bio))
 		return false;
 
-	trace_block_bio_backmerge(q, req, bio);
+//	trace_block_bio_backmerge(q, req, bio);
 
 	if ((req->cmd_flags & REQ_FAILFAST_MASK) != ff)
 		blk_rq_set_mixed_merge(req);
@@ -1648,7 +1648,7 @@ bool bio_attempt_front_merge(struct request_queue *q, struct request *req,
 	if (!ll_front_merge_fn(q, req, bio))
 		return false;
 
-	trace_block_bio_frontmerge(q, req, bio);
+//	trace_block_bio_frontmerge(q, req, bio);
 
 	if ((req->cmd_flags & REQ_FAILFAST_MASK) != ff)
 		blk_rq_set_mixed_merge(req);
@@ -1913,13 +1913,13 @@ get_rq:
 		 * out, so check plug list again.
 		 */
 		if (!request_count || list_empty(&plug->list))
-			trace_block_plug(q);
+//			trace_block_plug(q);
 		else {
 			struct request *last = list_entry_rq(plug->list.prev);
 			if (request_count >= BLK_MAX_REQUEST_COUNT ||
 			    blk_rq_bytes(last) >= BLK_PLUG_FLUSH_SIZE) {
 				blk_flush_plug_list(plug, false);
-				trace_block_plug(q);
+//				trace_block_plug(q);
 			}
 		}
 		list_add_tail(&req->queuelist, &plug->list);
@@ -2133,7 +2133,7 @@ generic_make_request_checks(struct bio *bio)
 		return false;
 
 	if (!bio_flagged(bio, BIO_TRACE_COMPLETION)) {
-		trace_block_bio_queue(q, bio);
+//		trace_block_bio_queue(q, bio);
 		/* Now that enqueuing has been traced, we need to trace
 		 * completion as well.
 		 */
@@ -2606,7 +2606,7 @@ struct request *blk_peek_request(struct request_queue *q)
 			 * not be passed by new incoming requests
 			 */
 			rq->rq_flags |= RQF_STARTED;
-			trace_block_rq_issue(q, rq);
+//			trace_block_rq_issue(q, rq);
 		}
 
 		if (!q->boundary_rq || q->boundary_rq == rq) {
@@ -2769,7 +2769,7 @@ bool blk_update_request(struct request *req, blk_status_t error,
 {
 	int total_bytes;
 
-	trace_block_rq_complete(req, blk_status_to_errno(error), nr_bytes);
+//	trace_block_rq_complete(req, blk_status_to_errno(error), nr_bytes);
 
 	if (!req->bio)
 		return false;
@@ -3335,7 +3335,7 @@ static void queue_unplugged(struct request_queue *q, unsigned int depth,
 {
 	lockdep_assert_held(q->queue_lock);
 
-	trace_block_unplug(q, depth, !from_schedule);
+//	trace_block_unplug(q, depth, !from_schedule);
 
 	if (from_schedule)
 		blk_run_queue_async(q);

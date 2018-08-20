@@ -1261,7 +1261,7 @@ static void free_pcppages_bulk(struct zone *zone, int count,
 				continue;
 
 			__free_one_page(page, page_to_pfn(page), zone, 0, mt);
-			trace_mm_page_pcpu_drain(page, 0, mt);
+//			trace_mm_page_pcpu_drain(page, 0, mt);
 		} while (--count && --batch_free && !list_empty(list));
 	}
 	spin_unlock(&zone->lock);
@@ -2428,7 +2428,7 @@ retry:
 			goto retry;
 	}
 
-	trace_mm_page_alloc_zone_locked(page, order, migratetype);
+//	trace_mm_page_alloc_zone_locked(page, order, migratetype);
 	return page;
 }
 
@@ -2769,7 +2769,7 @@ void free_hot_cold_page_list(struct list_head *list, bool cold)
 	struct page *page, *next;
 
 	list_for_each_entry_safe(page, next, list, lru) {
-		trace_mm_page_free_batched(page, cold);
+//		trace_mm_page_free_batched(page, cold);
 		free_hot_cold_page(page, cold);
 	}
 }
