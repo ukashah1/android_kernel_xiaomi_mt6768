@@ -2150,7 +2150,7 @@ static __latent_entropy struct task_struct *copy_process(
 	cgroup_threadgroup_change_end(current);
 	perf_event_fork(p);
 
-	trace_task_newtask(p, clone_flags);
+//	trace_task_newtask(p, clone_flags);
 	mtk_pidmap_update(p);
 	uprobe_copy_process(p, clone_flags);
 
@@ -2293,7 +2293,7 @@ long _do_fork(unsigned long clone_flags,
 		struct completion vfork;
 		struct pid *pid;
 
-		trace_sched_process_fork(current, p);
+//		trace_sched_process_fork(current, p);
 
 		pid = get_task_pid(p, PIDTYPE_PID);
 		nr = pid_vnr(pid);

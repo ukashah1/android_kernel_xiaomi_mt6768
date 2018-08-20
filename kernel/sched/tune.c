@@ -217,18 +217,18 @@ schedtune_boostgroup_update(int idx, int boost)
 			bg->boost_max = boost;
 			bg->boost_ts = bg->group[idx].ts;
 
-			trace_sched_tune_boostgroup_update(cpu, 1, bg->boost_max);
+//			trace_sched_tune_boostgroup_update(cpu, 1, bg->boost_max);
 			continue;
 		}
 
 		/* Check if this update has decreased current max */
 		if (cur_boost_max == old_boost && old_boost > boost) {
 			schedtune_cpu_update(cpu, now);
-			trace_sched_tune_boostgroup_update(cpu, -1, bg->boost_max);
+//			trace_sched_tune_boostgroup_update(cpu, -1, bg->boost_max);
 			continue;
 		}
 
-		trace_sched_tune_boostgroup_update(cpu, 0, bg->boost_max);
+//		trace_sched_tune_boostgroup_update(cpu, 0, bg->boost_max);
 	}
 
 	return 0;
