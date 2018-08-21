@@ -292,7 +292,7 @@ void __cfg80211_scan_done(struct work_struct *wk)
 void cfg80211_scan_done(struct cfg80211_scan_request *request,
 			struct cfg80211_scan_info *info)
 {
-	trace_cfg80211_scan_done(request, info);
+//	trace_cfg80211_scan_done(request, info);
 	WARN_ON(request != wiphy_to_rdev(request->wiphy)->scan_req);
 
 	request->info = *info;
@@ -396,7 +396,7 @@ void cfg80211_sched_scan_results(struct wiphy *wiphy, u64 reqid)
 	struct cfg80211_registered_device *rdev = wiphy_to_rdev(wiphy);
 	struct cfg80211_sched_scan_request *request;
 
-	trace_cfg80211_sched_scan_results(wiphy, reqid);
+//	trace_cfg80211_sched_scan_results(wiphy, reqid);
 	/* ignore if we're not scanning */
 
 	rcu_read_lock();
@@ -415,7 +415,7 @@ void cfg80211_sched_scan_stopped_rtnl(struct wiphy *wiphy, u64 reqid)
 
 	ASSERT_RTNL();
 
-	trace_cfg80211_sched_scan_stopped(wiphy, reqid);
+//	trace_cfg80211_sched_scan_stopped(wiphy, reqid);
 
 	__cfg80211_stop_sched_scan(rdev, reqid, true);
 }
@@ -717,8 +717,8 @@ struct cfg80211_bss *cfg80211_get_bss(struct wiphy *wiphy,
 	unsigned long now = jiffies;
 	int bss_privacy;
 
-	trace_cfg80211_get_bss(wiphy, channel, bssid, ssid, ssid_len, bss_type,
-			       privacy);
+//	trace_cfg80211_get_bss(wiphy, channel, bssid, ssid, ssid_len, bss_type,
+//			       privacy);
 
 	spin_lock_bh(&rdev->bss_lock);
 
@@ -749,7 +749,7 @@ struct cfg80211_bss *cfg80211_get_bss(struct wiphy *wiphy,
 	spin_unlock_bh(&rdev->bss_lock);
 	if (!res)
 		return NULL;
-	trace_cfg80211_return_bss(&res->pub);
+//	trace_cfg80211_return_bss(&res->pub);
 	return &res->pub;
 }
 EXPORT_SYMBOL(cfg80211_get_bss);
@@ -1204,7 +1204,7 @@ cfg80211_inform_bss_data(struct wiphy *wiphy,
 			regulatory_hint_found_beacon(wiphy, channel, gfp);
 	}
 
-	trace_cfg80211_return_bss(&res->pub);
+//	trace_cfg80211_return_bss(&res->pub);
 	/* cfg80211_bss_update gives us a referenced result */
 	return &res->pub;
 }
@@ -1229,7 +1229,7 @@ cfg80211_inform_bss_frame_data(struct wiphy *wiphy,
 	BUILD_BUG_ON(offsetof(struct ieee80211_mgmt, u.probe_resp.variable) !=
 			offsetof(struct ieee80211_mgmt, u.beacon.variable));
 
-	trace_cfg80211_inform_bss_frame(wiphy, data, mgmt, len);
+//	trace_cfg80211_inform_bss_frame(wiphy, data, mgmt, len);
 
 	if (WARN_ON(!mgmt))
 		return NULL;
@@ -1289,7 +1289,7 @@ cfg80211_inform_bss_frame_data(struct wiphy *wiphy,
 			regulatory_hint_found_beacon(wiphy, channel, gfp);
 	}
 
-	trace_cfg80211_return_bss(&res->pub);
+//	trace_cfg80211_return_bss(&res->pub);
 	/* cfg80211_bss_update gives us a referenced result */
 	return &res->pub;
 }

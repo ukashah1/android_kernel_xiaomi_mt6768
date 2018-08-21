@@ -1209,8 +1209,8 @@ static void __map_bio(struct dm_target_io *tio)
 		break;
 	case DM_MAPIO_REMAPPED:
 		/* the bio has been remapped so dispatch it */
-		trace_block_bio_remap(clone->bi_disk->queue, clone,
-				      bio_dev(tio->io->bio), sector);
+//		trace_block_bio_remap(clone->bi_disk->queue, clone,
+//				      bio_dev(tio->io->bio), sector);
 		generic_make_request(clone);
 		break;
 	case DM_MAPIO_KILL:

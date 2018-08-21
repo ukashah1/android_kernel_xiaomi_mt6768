@@ -3002,9 +3002,9 @@ static int xmit_one(struct sk_buff *skb, struct net_device *dev,
 		dev_queue_xmit_nit(skb, dev);
 
 	len = skb->len;
-	trace_net_dev_start_xmit(skb, dev);
+//	trace_net_dev_start_xmit(skb, dev);
 	rc = netdev_start_xmit(skb, dev, txq, more);
-	trace_net_dev_xmit(skb, rc, dev, len);
+//	trace_net_dev_xmit(skb, rc, dev, len);
 
 	return rc;
 }
@@ -3485,7 +3485,7 @@ static int __dev_queue_xmit(struct sk_buff *skb, void *accel_priv)
 	txq = netdev_pick_tx(dev, skb, accel_priv);
 	q = rcu_dereference_bh(txq->qdisc);
 
-	trace_net_dev_queue(skb);
+//	trace_net_dev_queue(skb);
 	if (q->enqueue) {
 		rc = __dev_xmit_skb(skb, q, dev, txq);
 		goto out;
@@ -4030,7 +4030,7 @@ static int netif_rx_internal(struct sk_buff *skb)
 
 	net_timestamp_check(netdev_tstamp_prequeue, skb);
 
-	trace_netif_rx(skb);
+//	trace_netif_rx(skb);
 
 	if (static_key_false(&generic_xdp_needed)) {
 		int ret;
@@ -4093,7 +4093,7 @@ static int netif_rx_internal(struct sk_buff *skb)
 
 int netif_rx(struct sk_buff *skb)
 {
-	trace_netif_rx_entry(skb);
+//	trace_netif_rx_entry(skb);
 
 	return netif_rx_internal(skb);
 }
@@ -4103,7 +4103,7 @@ int netif_rx_ni(struct sk_buff *skb)
 {
 	int err;
 
-	trace_netif_rx_ni_entry(skb);
+//	trace_netif_rx_ni_entry(skb);
 
 	preempt_disable();
 	err = netif_rx_internal(skb);
@@ -4190,10 +4190,10 @@ static __latent_entropy void net_tx_action(struct softirq_action *h)
 			clist = clist->next;
 
 			WARN_ON(refcount_read(&skb->users));
-			if (likely(get_kfree_skb_cb(skb)->reason == SKB_REASON_CONSUMED))
-				trace_consume_skb(skb);
-			else
-				trace_kfree_skb(skb, net_tx_action);
+//			if (likely(get_kfree_skb_cb(skb)->reason == SKB_REASON_CONSUMED))
+//				trace_consume_skb(skb);
+//			else
+//				trace_kfree_skb(skb, net_tx_action);
 
 			if (skb->fclone != SKB_FCLONE_UNAVAILABLE)
 				__kfree_skb(skb);
@@ -4410,7 +4410,7 @@ static int __netif_receive_skb_core(struct sk_buff *skb, bool pfmemalloc,
 
 	net_timestamp_check(!netdev_tstamp_prequeue, skb);
 
-	trace_netif_receive_skb(skb);
+//	trace_netif_receive_skb(skb);
 
 	orig_dev = skb->dev;
 
@@ -4841,7 +4841,7 @@ static void netif_receive_skb_list_internal(struct list_head *head)
  */
 int netif_receive_skb(struct sk_buff *skb)
 {
-	trace_netif_receive_skb_entry(skb);
+//	trace_netif_receive_skb_entry(skb);
 
 	return netif_receive_skb_internal(skb);
 }
@@ -5211,7 +5211,7 @@ static gro_result_t napi_skb_finish(gro_result_t ret, struct sk_buff *skb)
 gro_result_t napi_gro_receive(struct napi_struct *napi, struct sk_buff *skb)
 {
 	skb_mark_napi_id(skb, napi);
-	trace_napi_gro_receive_entry(skb);
+//	trace_napi_gro_receive_entry(skb);
 
 	skb_gro_reset_offset(skb);
 
@@ -5338,7 +5338,7 @@ gro_result_t napi_gro_frags(struct napi_struct *napi)
 	if (!skb)
 		return GRO_DROP;
 
-	trace_napi_gro_frags_entry(skb);
+//	trace_napi_gro_frags_entry(skb);
 
 	return napi_frags_finish(napi, skb, dev_gro_receive(napi, skb));
 }
@@ -5874,7 +5874,7 @@ static int napi_poll(struct napi_struct *n, struct list_head *repoll)
 	work = 0;
 	if (test_bit(NAPI_STATE_SCHED, &n->state)) {
 		work = n->poll(n, weight);
-		trace_napi_poll(n, work, weight);
+//		trace_napi_poll(n, work, weight);
 	}
 
 	WARN_ON_ONCE(work > weight);
