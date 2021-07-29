@@ -11,6 +11,8 @@
 # GNU General Public License for more details.
 #
 
+subdir-ccflags-y += -Wno-error
+
 ifeq ($(CONFIG_MTK_GCOV_KERNEL),y)
 GCOV_PROFILE := y
 endif
