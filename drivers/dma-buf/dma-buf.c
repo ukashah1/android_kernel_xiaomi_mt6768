@@ -109,7 +109,6 @@ static void dma_buf_release(struct dentry *dentry)
 		kmem_cache_free(kmem_dma_buf_pool, dmabuf);
 	else
 		kfree(dmabuf);
-	return 0;
 }
 
 static const struct dentry_operations dma_buf_dentry_ops = {
