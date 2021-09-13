@@ -28,27 +28,6 @@ MODULE_LICENSE("Dual BSD/GPL");
 #define BT_DRIVER_NAME "mtk_stp_bt_chrdev"
 #define BT_DEV_MAJOR 192
 
-#define PFX                         "[MTK-BT] "
-#define BT_LOG_DBG                  3
-#define BT_LOG_INFO                 2
-#define BT_LOG_WARN                 1
-#define BT_LOG_ERR                  0
-
-static UINT32 gDbgLevel = BT_LOG_INFO;
-
-#define BT_LOG_PRT_DBG(fmt, arg...)	\
-	do { if (gDbgLevel >= BT_LOG_DBG) pr_debug(PFX "%s: " fmt, __func__, ##arg); } while (0)
-#define BT_LOG_PRT_DBG_RATELIMITED(fmt, arg...)	\
-	do { if (gDbgLevel >= BT_LOG_DBG) pr_debug_ratelimited(PFX "%s: " fmt, __func__, ##arg); } while (0)
-#define BT_LOG_PRT_INFO(fmt, arg...)	\
-	do { if (gDbgLevel >= BT_LOG_INFO) pr_info(PFX "%s: " fmt, __func__, ##arg); } while (0)
-#define BT_LOG_PRT_WARN(fmt, arg...)	\
-	do { if (gDbgLevel >= BT_LOG_WARN) pr_warn(PFX "%s: " fmt, __func__, ##arg); } while (0)
-#define BT_LOG_PRT_ERR(fmt, arg...)	\
-	do { if (gDbgLevel >= BT_LOG_ERR) pr_err(PFX "%s: " fmt, __func__, ##arg); } while (0)
-#define BT_LOG_PRT_INFO_RATELIMITED(fmt, arg...)	\
-	do { if (gDbgLevel >= BT_LOG_ERR) pr_info_ratelimited(PFX "%s: " fmt, __func__, ##arg); } while (0)
-
 #define VERSION "2.0"
 
 #define COMBO_IOC_MAGIC             0xb0
@@ -350,7 +329,7 @@ static ssize_t __bt_write(const PUINT8 buffer, size_t count)
 		/* Device cannot process data in time, STP queue is full and no space is available for write,
 		 * native program should not call writev with no delay.
 		 */
-		BT_LOG_PRT_DBG_RATELIMITED("write count %zd, sent bytes %d, no space is available!\n", count, retval);
+		BT_LOG_PRT_INFO_RATELIMITED("write count %zd, sent bytes %d, no space is available!\n", count, retval);
 		retval = -EAGAIN;
 	} else
 		BT_LOG_PRT_DBG("write count %zd, sent bytes %d\n", count, retval);
