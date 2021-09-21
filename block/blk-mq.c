@@ -1706,7 +1706,7 @@ static blk_qc_t blk_mq_make_request(struct request_queue *q, struct bio *bio)
 
 		if (!request_count)
 //			trace_block_plug(q);
-		else
+//		else
 			last = list_entry_rq(plug->mq_list.prev);
 
 		if (request_count >= BLK_MAX_REQUEST_COUNT || (last &&

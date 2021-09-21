@@ -1912,7 +1912,7 @@ get_rq:
 		 * @request_count may become stale because of schedule
 		 * out, so check plug list again.
 		 */
-		if (!request_count || list_empty(&plug->list))
+		if (!request_count || list_empty(&plug->list));
 //			trace_block_plug(q);
 		else {
 			struct request *last = list_entry_rq(plug->list.prev);
