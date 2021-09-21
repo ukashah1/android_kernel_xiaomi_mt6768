@@ -774,13 +774,13 @@ static void rcu_eqs_enter_common(bool user)
 	struct rcu_dynticks *rdtp = this_cpu_ptr(&rcu_dynticks);
 
 	RCU_LOCKDEP_WARN(!irqs_disabled(), "rcu_eqs_enter_common() invoked with irqs enabled!!!");
-/*	trace_rcu_dyntick(TPS("Start"), rdtp->dynticks_nesting, 0);
+	trace_rcu_dyntick(TPS("Start"), rdtp->dynticks_nesting, 0);
 	if (IS_ENABLED(CONFIG_RCU_EQS_DEBUG) &&
 	    !user && !is_idle_task(current)) {
 		struct task_struct *idle __maybe_unused =
 			idle_task(smp_processor_id());
 
-/*		trace_rcu_dyntick(TPS("Error on entry: not idle task"), rdtp->dynticks_nesting, 0);
+		trace_rcu_dyntick(TPS("Error on entry: not idle task"), rdtp->dynticks_nesting, 0);
 		rcu_ftrace_dump(DUMP_ORIG);
 		WARN_ONCE(1, "Current pid: %d comm: %s / Idle pid: %d comm: %s",
 			  current->pid, current->comm,
@@ -2672,10 +2672,10 @@ static void rcu_do_batch(struct rcu_state *rsp, struct rcu_data *rdp)
 	/* If no callbacks are ready, just return. */
 	if (!rcu_segcblist_ready_cbs(&rdp->cblist)) {
 //		trace_rcu_batch_start(rsp->name,
-				      rcu_segcblist_n_lazy_cbs(&rdp->cblist),
-				      rcu_segcblist_n_cbs(&rdp->cblist), 0);
+//				      rcu_segcblist_n_lazy_cbs(&rdp->cblist),
+//				      rcu_segcblist_n_cbs(&rdp->cblist), 0);
 //		trace_rcu_batch_end(rsp->name, 0,
-				    !rcu_segcblist_empty(&rdp->cblist),
+//				    !rcu_segcblist_empty(&rdp->cblist),
 //				    need_resched(), is_idle_task(current),
 //				    rcu_is_callbacks_kthread());
 		return;
@@ -2690,7 +2690,7 @@ static void rcu_do_batch(struct rcu_state *rsp, struct rcu_data *rdp)
 	WARN_ON_ONCE(cpu_is_offline(smp_processor_id()));
 	bl = rdp->blimit;
 //	trace_rcu_batch_start(rsp->name, rcu_segcblist_n_lazy_cbs(&rdp->cblist),
-			      rcu_segcblist_n_cbs(&rdp->cblist), bl);
+//			      rcu_segcblist_n_cbs(&rdp->cblist), bl);
 	rcu_segcblist_extract_done_cbs(&rdp->cblist, &rcl);
 	local_irq_restore(flags);
 
