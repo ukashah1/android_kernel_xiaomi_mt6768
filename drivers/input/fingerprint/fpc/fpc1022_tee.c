@@ -209,7 +209,7 @@ static void fpc1022_get_irqNum(struct fpc1022_data *fpc1022)
 	//u32 ints[2] = {0, 0};
 	struct device_node *node;
 
-	printk("%s\n", __func__);
+	pr_debug("%s\n", __func__);
 
 	// pinctrl_select_state(fpc1022->pinctrl, fpc1022->st_irq); //xpt
 
@@ -223,10 +223,10 @@ static void fpc1022_get_irqNum(struct fpc1022_data *fpc1022)
 
 		fpc1022->irq_num = irq_of_parse_and_map(node, 0);	//xpt
 		fpc1022->irq_gpio = of_get_named_gpio(node, "fpc,gpio_irq", 0);
-		printk("%s , fpc1022->irq_num = %d, fpc1022->irq_gpio = %d\n",
+		pr_debug("%s , fpc1022->irq_num = %d, fpc1022->irq_gpio = %d\n",
 		       __func__, fpc1022->irq_num, fpc1022->irq_gpio);
 		if (!fpc1022->irq_num)
-			printk("irq_of_parse_and_map fail!!\n");
+			pr_debug("irq_of_parse_and_map fail!!\n");
 
 	} else
 		pr_err("%s can't find compatible node\n", __func__);
@@ -913,7 +913,7 @@ static int check_hwid(struct spi_device *spi)
 
 	do {
 		spi_read_hwid(spi, tmp_buf);
-		printk(KERN_INFO "%s, fpc1022 chip version is 0x%x, 0x%x\n",
+		pr_debug("%s, fpc1022 chip version is 0x%x, 0x%x\n",
 		       __func__, tmp_buf[0], tmp_buf[1]);
 
 		time_out++;
@@ -934,14 +934,13 @@ static int check_hwid(struct spi_device *spi)
 		}
 
 		if (!error) {
-			printk(KERN_INFO
-			       "fpc %s, fpc1022 chip version check pass, time_out=%d\n",
+			pr_debug("fpc %s, fpc1022 chip version check pass, time_out=%d\n",
 			       __func__, time_out);
 			return 0;
 		}
 	} while (time_out < 2);
 
-	printk(KERN_INFO "%s, fpc1022 chip version read failed, time_out=%d\n",
+	pr_err("%s, fpc1022 chip version read failed, time_out=%d\n",
 	       __func__, time_out);
 
 	return -1;
@@ -1044,7 +1043,7 @@ static struct spi_driver spi_driver = {
 static int __init fpc1022_init(void)
 {
 	int error = 0;
-	printk(KERN_INFO "%s\n", __func__);
+	pr_debug("%s\n", __func__);
 
 	if (goodix_fp_exist) {
 		pr_err
@@ -1054,11 +1053,11 @@ static int __init fpc1022_init(void)
 	}
 
 	if (0 != platform_driver_register(&fpc1022_driver)) {
-		printk(KERN_INFO "%s: register platform driver fail\n",
+		pr_err("%s: register platform driver fail\n",
 		       __func__);
 		return -EINVAL;
 	} else
-		printk(KERN_INFO "%s: register platform driver success\n",
+		pr_debug("%s: register platform driver success\n",
 		       __func__);
 
 	/*
@@ -1074,13 +1073,13 @@ static int __init fpc1022_init(void)
 
 	//workaround to solve two spi device
 	if (spi_fingerprint == NULL)
-		pr_notice("%s Line:%d spi device is NULL,cannot spi transfer\n",
+		pr_err("%s Line:%d spi device is NULL,cannot spi transfer\n",
 			  __func__, __LINE__);
 	else {
 		error = check_hwid(spi_fingerprint);
 
 		if (error < 0) {
-			pr_notice("%s: %d get chipid fail. now exit\n",
+			pr_err("%s: %d get chipid fail. now exit\n",
 				  __func__, __LINE__);
 			//platform_driver_unregister(&fpc1022_driver);
 			return -EINVAL;
@@ -1116,7 +1115,7 @@ static int __init fpc1022_init(void)
 
 static void __exit fpc1022_exit(void)
 {
-	printk(KERN_INFO "%s\n", __func__);
+	pr_debug("%s\n", __func__);
 
 	platform_driver_unregister(&fpc1022_driver);
 	//spi_unregister_driver(&spi_driver);
