@@ -1303,8 +1303,6 @@ void reaffine_perf_irqs(bool from_hotplug)
 		list_for_each_entry(data, &perf_crit_irqs, list) {
 			struct irq_desc *desc = data->desc;
 
-		raw_spin_lock(&desc->lock);
-		affine_one_perf_irq(desc);
 			raw_spin_lock(&desc->lock);
 			affine_one_perf_irq(desc, data->perf_flag);
 			affine_one_perf_thread(desc->action);
