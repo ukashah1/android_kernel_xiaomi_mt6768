@@ -233,7 +233,7 @@ static int ashmem_mmap(struct file *file, struct vm_area_struct *vma)
 			return ret;
 		}
 	} else {
-		vma_set_anonymous(vma);
+		vma_is_anonymous(vma);
 	}
 
 	if (vma->vm_file)
